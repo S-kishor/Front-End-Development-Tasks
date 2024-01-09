@@ -1,0 +1,24 @@
+body {
+  text-align: center;
+}
+.button{
+  height: 100px;
+  width: 100px;
+  border: none;
+  margin: 10px;
+  background-color: lightgreen;
+  border-radius: 50px;
+  cursor: pointer;
+  /* transition: all 0.5s ease-in-out 0s; */
+}
+/* .button:hover{
+  height: 120px;
+  width: 120px;
+  border-radius: 60px;
+} */
+.button:active{
+  border: 2px solid black;
+}
+.choice{
+  height: 80px;
+}

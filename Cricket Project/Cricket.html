@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Game</title>
+    <link rel="stylesheet" href="Cricket.css">
+</head>
+<body>
+    <div class="game_bar">
+        
+        <h1>Ball Bat Stump Game </h1>
+        
+
+        <button class="button" onclick="
+        let pc_choice= gen_pc_choice();
+        let result_msg = get_result('Bat',pc_choice);
+        display_result('Bat',pc_choice,result_msg);
+        " ><img src="images/bat.png" alt="Bat image" class="choice"></button>
+
+        <button class="button" onclick="
+        pc_choice= gen_pc_choice();
+        result_msg = get_result('Ball',pc_choice);
+        display_result('Ball',pc_choice,result_msg);
+        "><img src="images/ball.png" alt="Ball image" class="choice"></button>
+
+        <button class="button" onclick="
+        pc_choice=gen_pc_choice();
+        result_msg = get_result('Stumps',pc_choice);
+        display_result('Stumps',pc_choice,result_msg);
+        "><img src="images/stump.png" alt="Stump image" class="choice"></button><br><hr>
+
+        
+        <div id="play">
+            <h3 id="user_move"></h3>
+            <h3 id="pc_move"></h3>
+            <h3 id="result"></h3>
+            <h3 id="Score"></h3>
+
+        </div> 
+
+        <button onclick="localStorage.clear(),reset_scores() ">Reset</button>
+
+    </div>
+
+    <script>
+        let Scoresstr = localStorage.getItem('Score');
+        let Scores;
+
+        reset_scores(Scoresstr);
+        function reset_scores(Scoresstr){
+            Scores= Scoresstr ? JSON.parse(Scoresstr) : {
+                win: 0,
+                lost: 0,
+                Draw: 0,   
+        };
+            Scores.display_scores =  function(Scoresstr){
+                    return `Game History:\nWon: ${Scores.win}, Lost: ${Scores.lost}, Draw: ${Scores.Draw}`;
+                }
+            display_result();
+
+        }
+        
+        // if(Scoresstr !== undefined){
+        //     Scores=JSON.parse(Scoresstr);
+        // }else{
+        //     Scores = {
+        //         win: 0,
+        //         lost: 0,
+        //         Draw: 0,   
+        // };
+        // }
+
+        
+       
+        
+        function gen_pc_choice(){
+            let random_number = Math.random() * 3;
+            if(random_number > 0 && random_number <=1){
+                return 'Bat';
+            }else if(random_number > 1 && random_number <= 2){
+                return 'Ball';
+            }else{
+                return'Stumps'
+            }
+        }
+
+        function get_result(user_move, pc_move){
+            if(user_move === 'Bat'){
+                if(pc_move === 'Ball'){
+                    Scores.win++;
+                    return 'You Won';
+                }else if(pc_move === 'Stumps'){
+                    Scores.lost++;
+                    return 'You Lost';
+                }else{
+                    Scores.Draw++;
+                    return'Game Draw';
+                }
+            }else if(user_move === 'Ball'){
+                if(pc_move === 'Stumps'){
+                    Scores.win++;
+                    return 'You Won';
+                }else if(pc_move === 'Bat'){
+                    Scores.lost++;
+                    return 'You Lost';
+                }else{
+                    Scores.Draw++;
+                    return 'Game Draw';
+                }
+            }else{
+                if(pc_move === 'Bat'){
+                    Scores.win++;
+                    return 'You Won';
+                }else if(pc_move === 'Ball'){
+                    Scores.lost++;
+                    return'You Lost';
+                }else{
+                    Scores.Draw++;
+                    return 'Game Draw';
+                }
+            }   
+        }
+
+        function display_result(user_move,pc_move,result){
+                localStorage.setItem('Score',JSON.stringify(Scores));
+                document.querySelector('#user_move').innerText = 
+                    user_move !== undefined ? `Your choice is ${user_move}.`: '';
+                document.querySelector('#pc_move').innerText = 
+                    pc_move !== undefined ? `Computer choice is ${pc_move}.`: '';
+                document.querySelector('#result').innerText = 
+                    result !== undefined ? result : '';
+                document.querySelector('#Score').innerText =  Scores.display_scores();
+
+                // alert(`Your choice is ${user_move}.\nComputer choice is ${pc_move}.\n${result}.\n\nScore History : \n${Scores.display_scores()}`);
+            }
+        
+        
+
+    </script>
+</body>
+</html>
